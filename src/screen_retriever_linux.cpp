@@ -36,12 +36,10 @@ Display ScreenRetrieverLinux::GetPrimaryDisplay() {
   return display;
 }
 
-DisplayList ScreenRetrieverLinux::GetAllDisplays() {
+std::vector<Display> ScreenRetrieverLinux::GetAllDisplays() {
   // Empty implementation
-  DisplayList displayList;
-  displayList.displays = new Display[1];
-  displayList.displays[0] = GetPrimaryDisplay();
-  displayList.count = 1;
+  std::vector<Display> displayList;
+  displayList.push_back(GetPrimaryDisplay());
   return displayList;
 }
 

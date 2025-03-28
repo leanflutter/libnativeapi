@@ -11,14 +11,19 @@
 
 namespace nativeapi {
 
-std::unique_ptr<ScreenRetriever> ScreenRetriever::Create() {
+std::unique_ptr<ScreenRetriever> ScreenRetriever::instance_ = nullptr;
+
+ScreenRetriever& ScreenRetriever::GetInstance() {
+  if (!instance_) {
 #ifdef __APPLE__
-  return std::unique_ptr<ScreenRetriever>(new ScreenRetrieverMacOS());
+    instance_ = std::unique_ptr<ScreenRetriever>(new ScreenRetrieverMacOS());
 #elif defined(_WIN32)
-  return std::unique_ptr<ScreenRetriever>(new ScreenRetrieverWindows());
+    instance_ = std::unique_ptr<ScreenRetriever>(new ScreenRetrieverWindows());
 #else
-  return std::unique_ptr<ScreenRetriever>(new ScreenRetrieverLinux());
+    instance_ = std::unique_ptr<ScreenRetriever>(new ScreenRetrieverLinux());
 #endif
+  }
+  return *instance_;
 }
 
 }  // namespace nativeapi

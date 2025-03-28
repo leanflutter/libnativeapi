@@ -11,9 +11,13 @@ namespace nativeapi {
 class ScreenRetriever {
  public:
   virtual ~ScreenRetriever() = default;
+  
+  // Delete copy constructor and assignment operator
+  ScreenRetriever(const ScreenRetriever&) = delete;
+  ScreenRetriever& operator=(const ScreenRetriever&) = delete;
 
-  // Static factory method to create platform-specific instance
-  static std::unique_ptr<ScreenRetriever> Create();
+  // Get singleton instance
+  static ScreenRetriever& GetInstance();
 
   // Get the current cursor screen point
   virtual Point GetCursorScreenPoint() = 0;
@@ -22,7 +26,15 @@ class ScreenRetriever {
   virtual Display GetPrimaryDisplay() = 0;
 
   // Get all displays information
-  virtual DisplayList GetAllDisplays() = 0;
+  virtual std::vector<Display> GetAllDisplays() = 0;
+
+ protected:
+  // Protected constructor for singleton
+  ScreenRetriever() = default;
+
+ private:
+  // Static instance holder
+  static std::unique_ptr<ScreenRetriever> instance_;
 };
 
 }  // namespace nativeapi

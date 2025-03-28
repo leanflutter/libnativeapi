@@ -12,7 +12,7 @@ class ScreenRetrieverWindows : public ScreenRetriever {
 
   nativeapi::Point GetCursorScreenPoint() override;
   Display GetPrimaryDisplay() override;
-  DisplayList GetAllDisplays() override;
+  std::vector<Display> GetAllDisplays() override;
 };
 
 }  // namespace nativeapi

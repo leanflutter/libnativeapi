@@ -15,7 +15,7 @@ class ScreenRetrieverMacOS : public ScreenRetriever {
 
   Point GetCursorScreenPoint() override;
   Display GetPrimaryDisplay() override;
-  DisplayList GetAllDisplays() override;
+  std::vector<Display> GetAllDisplays() override;
 
  private:
   // Helper method to create Display struct from NSScreen
