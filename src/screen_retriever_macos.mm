@@ -45,7 +45,7 @@ void ScreenRetrieverMacOS::HandleDisplayChange() {
     }
     if (!found) {
       // This is a new display
-      for (const auto& listener : listeners_[ScreenEventType::kDisplayAdded]) {
+      for (const auto& listener : listeners_[ScreenEventType::DisplayAdded]) {
         listener(&new_display);
       }
     }
@@ -62,7 +62,7 @@ void ScreenRetrieverMacOS::HandleDisplayChange() {
     }
     if (!found) {
       // This display was removed
-      for (const auto& listener : listeners_[ScreenEventType::kDisplayRemoved]) {
+      for (const auto& listener : listeners_[ScreenEventType::DisplayRemoved]) {
         listener(&current_display);
       }
     }

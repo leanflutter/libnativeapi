@@ -16,4 +16,4 @@ struct Display {
   double scaleFactor;
 };
 
-}  // namespace nativeapi 
+}  // namespace nativeapi

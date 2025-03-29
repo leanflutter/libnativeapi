@@ -10,9 +10,9 @@
 namespace nativeapi {
 
 // Event types that can be listened to
-enum ScreenEventType {
-  kDisplayAdded,    // New display connected
-  kDisplayRemoved,  // Display disconnected
+enum class ScreenEventType : uint8_t {
+  DisplayAdded = 0x01,    // New display connected
+  DisplayRemoved = 0x02,  // Display disconnected
 };
 
 // Abstract base class for ScreenRetriever
@@ -54,4 +54,4 @@ class ScreenRetriever {
   static std::unique_ptr<ScreenRetriever> instance_;
 };
 
-}  // namespace nativeapi 
+}  // namespace nativeapi
