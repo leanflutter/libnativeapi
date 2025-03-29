@@ -33,12 +33,12 @@ add_library(libnativeapi STATIC
 
 # Set library properties
 set_target_properties(libnativeapi PROPERTIES
-  PUBLIC_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/libnativeapi/src/**/*.h"
+  PUBLIC_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/../include/**/*.h"
 )
 
 # Set library include directories
 target_include_directories(libnativeapi PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
   $<INSTALL_INTERFACE:include>
 )
 

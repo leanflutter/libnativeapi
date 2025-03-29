@@ -54,4 +54,4 @@ class ScreenRetriever {
   static std::unique_ptr<ScreenRetriever> instance_;
 };
 
-}  // namespace nativeapi
+}  // namespace nativeapi 

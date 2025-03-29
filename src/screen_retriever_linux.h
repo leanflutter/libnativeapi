@@ -1,6 +1,6 @@
 #pragma once
 
-#include "screen_retriever.h"
+#include "nativeapi/screen_retriever.h"
 
 namespace nativeapi {
 

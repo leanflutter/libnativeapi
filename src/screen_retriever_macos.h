@@ -1,7 +1,7 @@
 #pragma once
 
 #include <map>
-#include "screen_retriever.h"
+#include "nativeapi/screen_retriever.h"
 
 // Import Cocoa headers
 #import <Cocoa/Cocoa.h>

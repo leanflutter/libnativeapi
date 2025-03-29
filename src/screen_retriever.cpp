@@ -1,4 +1,4 @@
-#include "screen_retriever.h"
+#include "nativeapi.h"
 
 // Forward declarations for platform-specific implementations
 #ifdef __APPLE__

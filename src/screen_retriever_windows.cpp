@@ -59,7 +59,7 @@ Display CreateDisplayFromMonitor(HMONITOR monitor, bool isMainScreen) {
       //   std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
       //   display.id = converter.to_bytes(displayDevice.DeviceID);
       // }
-        }
+    }
     deviceIndex++;
   }
 
@@ -110,6 +110,5 @@ std::vector<Display> ScreenRetrieverWindows::GetAllDisplays() {
                         reinterpret_cast<LPARAM>(&displayList));
   return displayList;
 }
-
 
 }  // namespace nativeapi

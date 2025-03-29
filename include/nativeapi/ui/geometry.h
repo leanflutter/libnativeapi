@@ -28,4 +28,4 @@ struct Point {
 //   double width;
 // };
 
-}  // namespace nativeapi
+}  // namespace nativeapi 
