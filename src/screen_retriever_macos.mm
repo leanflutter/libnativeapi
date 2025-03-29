@@ -18,13 +18,66 @@ static char* ConvertNSStringToCString(NSString* nsString) {
 }
 
 ScreenRetrieverMacOS::ScreenRetrieverMacOS() {
-  // Constructor implementation
-  std::cout << "ScreenRetrieverMacOS initialized" << std::endl;
+  // Store initial display configuration
+  current_displays_ = GetAllDisplays();
+
+  // Set up display configuration change observer
+  displayObserver_ = [[NSNotificationCenter defaultCenter]
+      addObserverForName:NSApplicationDidChangeScreenParametersNotification
+                  object:nil
+                   queue:[NSOperationQueue mainQueue]
+              usingBlock:^(NSNotification* notification) {
+                HandleDisplayChange();
+              }];
+}
+
+void ScreenRetrieverMacOS::HandleDisplayChange() {
+  auto new_displays = GetAllDisplays();
+
+  // Find added displays
+  for (const auto& new_display : new_displays) {
+    bool found = false;
+    for (const auto& current_display : current_displays_) {
+      if (new_display.id == current_display.id) {
+        found = true;
+        break;
+      }
+    }
+    if (!found) {
+      // This is a new display
+      for (const auto& listener : listeners_[ScreenEventType::kDisplayAdded]) {
+        listener(&new_display);
+      }
+    }
+  }
+
+  // Find removed displays
+  for (const auto& current_display : current_displays_) {
+    bool found = false;
+    for (const auto& new_display : new_displays) {
+      if (current_display.id == new_display.id) {
+        found = true;
+        break;
+      }
+    }
+    if (!found) {
+      // This display was removed
+      for (const auto& listener : listeners_[ScreenEventType::kDisplayRemoved]) {
+        listener(&current_display);
+      }
+    }
+  }
+
+  // Update current display list
+  current_displays_ = std::move(new_displays);
 }
 
 ScreenRetrieverMacOS::~ScreenRetrieverMacOS() {
-  // Destructor implementation
-  std::cout << "ScreenRetrieverMacOS destroyed" << std::endl;
+  // Remove observer
+  if (displayObserver_) {
+    [[NSNotificationCenter defaultCenter] removeObserver:displayObserver_];
+  }
+  // Note: cursor observer is automatically cleaned up when the run loop source is removed
 }
 
 Point ScreenRetrieverMacOS::GetCursorScreenPoint() {
@@ -92,6 +145,17 @@ Display ScreenRetrieverMacOS::CreateDisplayFromNSScreen(NSScreen* screen, bool i
   display.scaleFactor = scaleFactor;
 
   return display;
+}
+
+void ScreenRetrieverMacOS::AddEventListener(ScreenEventType event_type,
+                                            std::function<void(const void*)> listener) {
+  listeners_[event_type].push_back(listener);
+}
+
+void ScreenRetrieverMacOS::RemoveEventListener(ScreenEventType event_type,
+                                               std::function<void(const void*)> listener) {
+  // Note: This is a simplified implementation that removes all listeners for the event type
+  listeners_[event_type].clear();
 }
 
 }  // namespace nativeapi
